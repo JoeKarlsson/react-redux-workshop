@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PageContainer from './PageContainer';
 import logo from '../assets/logo.svg';
 import './App.css';
 
@@ -11,8 +10,6 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">React Reddit</h1>
         </header>
-
-        <PageContainer />
       </div>
     );
   }
