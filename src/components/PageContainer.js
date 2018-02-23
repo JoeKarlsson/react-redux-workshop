@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { setItems } from '../actions';
 import Page from './Page';
 
 class PageContainer extends Component {
   constructor() {
     super();
     this.state = {
-      posts : [],
 			error: false,
 			loading: false,
     }
   };
 
 	componentDidMount() {
+		const { dispatch } = this.props;
 		this.setState({ loading: true });
+
 
 		this.loadDataFromReddit()
 			.then(posts => {
@@ -21,12 +24,10 @@ class PageContainer extends Component {
 						loading: false,
 						error: true,
 					});
-					return [];
+					return dispatch(setItems(posts));
 				}
-				return this.setState({
-					posts,
-					loading: false,
-				});
+				this.setState({loading: false});
+				return dispatch(setItems(posts));
 			})
 			.catch(err => {
 				this.onError(err);
@@ -57,10 +58,10 @@ class PageContainer extends Component {
 
   render() {
 		const {
-			posts,
 			loading,
 			error,
 		} = this.state;
+		const { posts } = this.props;
 
     return (
       <div>
@@ -74,4 +75,12 @@ class PageContainer extends Component {
   }
 };
 
-export default PageContainer;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    posts: state.default,
+  }
+};
+
+export default connect(
+  mapStateToProps
+)(PageContainer);
