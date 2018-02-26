@@ -1,12 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import configureStore from './configureStore';
+import {
+	createStore,
+	combineReducers,
+} from 'redux';
+import * as reducers from './reducer';
 import './index.css';
 import App from './components/App';
 import registerServiceWorker from './registerServiceWorker';
 
-const store = configureStore();
+const reducer = combineReducers(reducers);
+const store = createStore(reducer);
+
+// const initialState = store.getState(); // sanity check
 
 ReactDOM.render((
 	<Provider store={store}>
